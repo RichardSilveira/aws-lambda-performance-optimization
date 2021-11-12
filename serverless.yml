@@ -25,17 +25,6 @@ provider:
   memorySize: 512
   timeout: 30
   role: arn:aws:iam::051826142769:role/lambda-task-registration-role
-  apiKeys:
-    - myUsagePlan:
-      - my-api-key # this key can be used for a Custom Authorizer
-  usagePlan:
-    - myUsagePlan:
-        throttle:
-          burstLimit: 100
-          rateLimit: 200
-        quota:
-          limit: 200_000
-          period: MONTH
 
   environment:
     STAGE: ${env:STAGE}
