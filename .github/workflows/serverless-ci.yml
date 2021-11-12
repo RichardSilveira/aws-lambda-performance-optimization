@@ -1,0 +1,28 @@
+on: push
+name: serveless-ci
+jobs:
+  test:
+    name: Serverless CI
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create Test Image
+      run: docker-compose -f docker-compose.test.yml build
+    - name: Run Test
+      run: docker-compose -f docker-compose.test.yml up
+      env:
+        NODE_ENV: development
+        STAGE: ${{secrets.STAGE}}
+        REGION: ${{secrets.REGION}}
+        MY_SECRET: ${{secrets.MY_SECRET}}
+        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+    - name: Create Serverless Package
+      run: docker-compose -f docker-compose.package.yml build
+      env:
+        NODE_ENV: development
+        STAGE: ${{secrets.STAGE}}
+        REGION: ${{secrets.REGION}}
+        MY_SECRET: ${{secrets.MY_SECRET}}
+        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
