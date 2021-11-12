@@ -7,6 +7,13 @@ src/**/*.js*
 test/*.js*
 test/**/*.js*
 
+# Terraform
+
+**/.terraform
+
+**/*.tfstate
+**/*.tfstate.*
+**/*.terraform.*
 
 # Logs
 logs
