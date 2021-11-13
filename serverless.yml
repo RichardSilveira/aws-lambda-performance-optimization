@@ -22,20 +22,19 @@ custom:
 provider:
   name: aws
   runtime: nodejs14.x
-  memorySize: 512
+  memorySize: 256
   timeout: 30
   role: arn:aws:iam::999110959427:role/lambda-labs-role
 
   environment:
     STAGE: ${env:STAGE}
     REGION: ${env:REGION}
-    MY_SECRET: ${env:MY_SECRET}
 
 functions:
   hello:
     handler: src/handler.hello
-    provisionedConcurrency: 1
-    concurrencyAutoscaling: true #all settings: https://www.serverless.com/plugins/serverless-provisioned-concurrency-autoscaling
+    # provisionedConcurrency: 1
+    # concurrencyAutoscaling: true #all settings: https://www.serverless.com/plugins/serverless-provisioned-concurrency-autoscaling
     events:
       - http:
           path: hello
