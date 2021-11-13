@@ -24,7 +24,7 @@ provider:
   runtime: nodejs14.x
   memorySize: 512
   timeout: 30
-  role: arn:aws:iam::051826142769:role/lambda-task-registration-role
+  role: arn:aws:iam::999110959427:role/lambda-labs-role
 
   environment:
     STAGE: ${env:STAGE}
