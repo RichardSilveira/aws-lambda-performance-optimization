@@ -1,5 +1,6 @@
 import User from './user';
 import { createDataMapperInstance } from './dynamoDBClientFactory';
+import { sleep } from './common';
 
 const { REGION } = process.env;
 
@@ -25,6 +26,7 @@ export const createOrUpdateUser = async (event, context) => {
   const registeredUser = await mapper.put(newUser);
   console.log(userRequest, registeredUser);
 
+  await sleep(2000);
   return {
     statusCode: 200,
     body: JSON.stringify({

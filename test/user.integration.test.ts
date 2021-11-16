@@ -25,8 +25,4 @@ describe('Create User scenarios', () => {
     expect(data?.name)
       .toBe(userRequest.name);
   });
-
-  it('Should returns 400 status when body is not informed', () => {
-
-  });
 });
