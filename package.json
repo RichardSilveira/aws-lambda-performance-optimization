@@ -2,14 +2,13 @@
   "name": "aws-lambda-performance-optimization",
   "version": "0.1.0",
   "description": "A playground for lambda optimization in AWS",
-  "main": "src/handler.ts",
+  "main": "src/userHandler.ts",
   "scripts": {
-    "local": "serverless offline start --printOutput --profile my-profile",
+    "local": "serverless offline start --printOutput",
     "test": "npx --no-install jest",
     "test:watch": "npx --no-install jest --watch",
     "package": "set SLS_DEBUG=* && sls package",
-    "package:local": "set SLS_DEBUG=* && sls package --aws-profile my-profile",
-    "deploy": "sls deploy",
+    "deploy": "sls deploy --region us-east-2",
     "lint": "npx --no-install eslint --ext .ts ./src",
     "compile": "tsc",
     "postinstall": "husky install"
@@ -47,6 +46,10 @@
     "aws-sdk": "^2.935.0"
   },
   "dependencies": {
+    "@aws/dynamodb-data-mapper": "^0.7.3",
+    "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
+    "@aws/dynamodb-data-marshaller": "^0.7.3",
+    "aws-xray-sdk": "^3.3.4",
     "jest": "^26.6.3",
     "serverless-dotenv-plugin": "^3.9.0",
     "serverless-provisioned-concurrency-autoscaling": "^1.2.0",

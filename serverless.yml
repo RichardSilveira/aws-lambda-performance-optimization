@@ -1,5 +1,5 @@
 # NOTE: update this with your service name
-service: aws-nodejs-typescript-docker-template
+service: lambda-labs-optimization
 
 # Create an optimized package for our functions
 package:
@@ -13,7 +13,7 @@ plugins:
 
 custom:
   serverless-offline:
-    host: 0.0.0.0
+    # host: 0.0.0.0
     httpPort: 4000
   bundle:
     tsConfig: "tsconfig.eslint.json"
@@ -22,20 +22,39 @@ custom:
 provider:
   name: aws
   runtime: nodejs14.x
-  memorySize: 256
-  timeout: 30
+  lambdaHashingVersion: 20201221
+  vpc:
+    securityGroupIds:
+      - sg-5a083a33
+    subnetIds:
+      - subnet-267ab46b
+      - subnet-fe780b97
+      - subnet-a770c9dc
+  memorySize: 512
+  timeout: 120
   role: arn:aws:iam::999110959427:role/lambda-labs-role
 
   environment:
-    STAGE: ${env:STAGE}
     REGION: ${env:REGION}
 
+  tracing:
+    apiGateway: true
+    lambda: true
+
 functions:
-  hello:
-    handler: src/handler.hello
+  createUser:
+    handler: src/userHandler.createUser
     # provisionedConcurrency: 1
     # concurrencyAutoscaling: true #all settings: https://www.serverless.com/plugins/serverless-provisioned-concurrency-autoscaling
     events:
       - http:
-          path: hello
+          path: users
+          method: post
+  listUsers:
+    handler: src/userHandler.listUsers
+    # provisionedConcurrency: 1
+    # concurrencyAutoscaling: true #all settings: https://www.serverless.com/plugins/serverless-provisioned-concurrency-autoscaling
+    events:
+      - http:
+          path: users
           method: get
