@@ -25,7 +25,7 @@ export const createOrUpdateUser = async (event, context) => {
   const registeredUser = await mapper.put(newUser);
   console.log(userRequest, registeredUser);
 
-  await sleep(2000);
+  await sleep(1000);
   return {
     statusCode: 200,
     body: JSON.stringify({
