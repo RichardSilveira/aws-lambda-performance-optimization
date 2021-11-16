@@ -2,7 +2,7 @@
   "name": "aws-lambda-performance-optimization",
   "version": "0.1.0",
   "description": "A playground for lambda optimization in AWS",
-  "main": "src/userHandler.ts",
+  "main": "src/userHandlerV1.ts",
   "scripts": {
     "local": "serverless offline start --printOutput",
     "test": "npx --no-install jest",

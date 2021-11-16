@@ -3,27 +3,21 @@ import { DataMapper } from '@aws/dynamodb-data-mapper';
 import { Credentials, DynamoDB } from 'aws-sdk';
 import AWSXRay from 'aws-xray-sdk-core';
 
-export const createDataMapperInstance = (region: string, credentials?: Credentials) => {
-  let dynamoDBOptions: DynamoDB.ClientConfiguration = {
+const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+
+export const createDataMapperInstance = (region: string, credentials: Credentials = new AWS.EnvironmentCredentials('AWS')) => {
+  const dynamoDBOptions: AWS.DynamoDB.ClientConfiguration = {
     region,
-    httpOptions: {
-      timeout: 3000,
-    },
+    credentials,
     maxRetries: 1,
     logger: console,
   };
 
-  if (credentials) {
-    dynamoDBOptions = {
-      ...dynamoDBOptions, credentials,
-    };
-  }
-
   console.log(dynamoDBOptions);
-  const client = new DynamoDB(dynamoDBOptions);
-  AWSXRay.captureAWSClient(client);
 
-  return new DataMapper({
-    client, // the SDK client used to execute operations
-  });
+  console.time('DynamoDB-INIT');
+  const client = new DynamoDB(dynamoDBOptions);
+  console.timeEnd('DynamoDB-INIT');
+
+  return new DataMapper({ client });
 };

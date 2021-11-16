@@ -1,6 +1,5 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
 import { SharedIniFileCredentials } from 'aws-sdk';
-import { createUser, listUsers } from '../src/userHandler';
+import { createOrUpdateUser } from '../src/userHandlerV1';
 
 const credentials = new SharedIniFileCredentials({ profile: 'default' });
 
@@ -13,8 +12,8 @@ describe('Create User scenarios', () => {
       dob: '1986-07-10T17:12:19.688Z',
     };
 
-    const event = { body: { ...userRequest } };
-    const createUserCommand = createUser;
+    const event = { body: JSON.stringify(userRequest) };
+    const createUserCommand = createOrUpdateUser;
 
     const { statusCode, body } = await createUserCommand(event, context);
 
@@ -26,18 +25,8 @@ describe('Create User scenarios', () => {
     expect(data?.name)
       .toBe(userRequest.name);
   });
-});
-describe('Unit tests for the hello function to check the overall template\' setup integrity', () => {
-  it('When the hello function is invoked, Should returns a \'200\' success status code', async () => {
-    const event: APIGatewayProxyEvent = {
-      httpMethod: 'GET',
-      queryStringParameters: {
-        foo: 'bar',
-      },
-    } as any;
 
-    const result = await listUsers(event);
+  it('Should returns 400 status when body is not informed', () => {
 
-    expect(result.statusCode).toEqual(200);
   });
 });

@@ -31,7 +31,7 @@ provider:
       - subnet-fe780b97
       - subnet-a770c9dc
   memorySize: 512
-  timeout: 120
+  timeout: 30 #API Gateway timeout
   role: arn:aws:iam::999110959427:role/lambda-labs-role
 
   environment:
@@ -42,19 +42,23 @@ provider:
     lambda: true
 
 functions:
-  createUser:
-    handler: src/userHandler.createUser
-    # provisionedConcurrency: 1
-    # concurrencyAutoscaling: true #all settings: https://www.serverless.com/plugins/serverless-provisioned-concurrency-autoscaling
+  createOrUpdateUserV1:
+    handler: src/userHandlerV1.createOrUpdateUser
     events:
       - http:
-          path: users
+          path: v1/users
           method: post
-  listUsers:
-    handler: src/userHandler.listUsers
-    # provisionedConcurrency: 1
-    # concurrencyAutoscaling: true #all settings: https://www.serverless.com/plugins/serverless-provisioned-concurrency-autoscaling
+  createOrUpdateUserV2:
+    handler: src/userHandlerV2.createOrUpdateUser
     events:
       - http:
-          path: users
-          method: get
+          path: v2/users
+          method: post
+  createOrUpdateUserV3:
+    handler: src/userHandlerV3.createOrUpdateUser
+    provisionedConcurrency: 1
+    concurrencyAutoscaling: true #all settings: https://www.serverless.com/plugins/serverless-provisioned-concurrency-autoscaling
+    events:
+      - http:
+          path: v3/users
+          method: post
