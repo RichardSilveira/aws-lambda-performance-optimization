@@ -26,6 +26,9 @@ export const createOrUpdateUser = async (event, context) => {
   console.log(userRequest, registeredUser);
 
   await sleep(1000);
+
+  console.log('second request just to check the dynamoDb latency');
+  await mapper.put(newUser);
   return {
     statusCode: 200,
     body: JSON.stringify({

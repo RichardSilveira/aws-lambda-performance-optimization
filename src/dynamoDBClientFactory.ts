@@ -15,9 +15,13 @@ export const createDataMapperInstance = (region: string, credentials: Credential
 
   console.log(dynamoDBOptions);
 
-  console.time('DynamoDB-INIT');
+  console.time('DynamoDB-create-instance');
   const client = new DynamoDB(dynamoDBOptions);
-  console.timeEnd('DynamoDB-INIT');
+  const mapper = new DataMapper({ client });
+  console.timeEnd('DynamoDB-create-instance');
 
-  return new DataMapper({ client });
+  const { httpOptions } = client.config;
+  console.log({ httpOptions, mapper });
+
+  return mapper;
 };
