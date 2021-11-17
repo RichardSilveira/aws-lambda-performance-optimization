@@ -9,13 +9,13 @@ function logMetadata() {
 }
 
 export const createOrUpdateUser = async (event, context) => {
-  let mapper = createDataMapperInstance(REGION);
+  let mapper = createDataMapperInstance(REGION, false);
   logMetadata();
   console.log(event.body);
 
   // Integration tests - To allow us override both credentials + mapper instance
   if (context?.customCredentials) {
-    mapper = createDataMapperInstance(REGION, context.customCredentials);
+    mapper = createDataMapperInstance(REGION, false, context.customCredentials);
   }
 
   const userRequest = JSON.parse(event.body);
