@@ -1,10 +1,14 @@
-import { sleep, check } from 'k6';
+import { check } from 'k6';
 import { Options } from 'k6/options';
 import http from 'k6/http';
 
 export const options:Options = {
-  vus: 1,
-  duration: '10s',
+  stages: [
+    { duration: '5m', target: 25 },
+    { duration: '10m', target: 150 },
+    { duration: '30m', target: 150 },
+    { duration: '40m', target: 100 },
+  ],
 };
 
 const userRequest = {
@@ -20,5 +24,5 @@ export default () => {
   check(res, {
     'status is 200': () => res.status === 200,
   });
-  sleep(1);
+  // sleep(1);
 };

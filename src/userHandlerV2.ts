@@ -10,7 +10,7 @@ function logMetadata() {
 
 // To reuse this instance across multiple invocations of this lambda function (Cold start issue)
 let mapper = createDataMapperInstance(REGION, true);
-mapper.get<User>(getDummyUser()); // To establish the database connection and keep it alive
+mapper.get<User>(getDummyUser()).then((user) => console.log('requested dummy user', user)); // To establish the database connection and keep it alive
 
 export const createOrUpdateUser = async (event, context) => {
   logMetadata();

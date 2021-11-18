@@ -30,12 +30,8 @@ export const createDataMapperInstance = (region: string, keepAlive: boolean, cre
     };
   }
 
-  const client = new DynamoDB(dynamoDBOptions);
-
-  console.log(dynamoDBOptions);
-
   console.time('DynamoDB-create-instance');
-  // const client = new DynamoDB(dynamoDBOptions);
+  const client = new DynamoDB(dynamoDBOptions);
   const mapper = new DataMapper({ client });
   console.timeEnd('DynamoDB-create-instance');
 
