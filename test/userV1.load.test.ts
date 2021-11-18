@@ -1,14 +1,29 @@
-import { check } from 'k6';
+import { sleep, check } from 'k6';
 import { Options } from 'k6/options';
 import http from 'k6/http';
 
 export const options:Options = {
-  stages: [
-    { duration: '5m', target: 25 },
-    { duration: '10m', target: 150 },
-    { duration: '30m', target: 150 },
-    { duration: '40m', target: 100 },
-  ],
+  scenarios: {
+    ramp_up: {
+      executor: 'per-vu-iterations',
+      vus: 20,
+      iterations: 3,
+      maxDuration: '5m',
+      startTime: '0s',
+    },
+    cold_start: {
+      executor: 'per-vu-iterations',
+      vus: 10,
+      iterations: 2,
+      startTime: '15m',
+    },
+    ramp_down: {
+      executor: 'per-vu-iterations',
+      vus: 5,
+      iterations: 1,
+      startTime: '20m',
+    },
+  },
 };
 
 const userRequest = {
@@ -24,5 +39,5 @@ export default () => {
   check(res, {
     'status is 200': () => res.status === 200,
   });
-  // sleep(1);
+  sleep(1);
 };
